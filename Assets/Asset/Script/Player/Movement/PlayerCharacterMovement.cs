@@ -19,6 +19,8 @@ public class PlayerCharacterMovement : MonoBehaviour
 
     // Kecepatan vertikal
     private float _verticalVelocity;
+    [SerializeField]
+    private Transform _cameraTarget;
 
     public void SetMoveInput(Vector2 moveInput)
     {
@@ -33,12 +35,24 @@ public class PlayerCharacterMovement : MonoBehaviour
 
     private void Move()
     {
-        // Mengubah Vector2 menjadi Vector3
-        Vector3 moveDirection = new Vector3(
-            _moveInput.x,
-            0f,
-            _moveInput.y
-        );
+        // Mengambil arah kanan kamera
+        Vector3 cameraRight = _cameraTarget.right;
+
+        // Mengambil arah depan kamera
+        Vector3 cameraForward = _cameraTarget.forward;
+
+        
+        cameraRight.y = 0f;
+        cameraForward.y = 0f;
+
+        // Normalisasi direction
+        cameraRight.Normalize();
+        cameraForward.Normalize();
+
+        // Membuat movement berdasarkan arah kamera
+        Vector3 moveDirection =
+            cameraRight * _moveInput.x +
+            cameraForward * _moveInput.y;
 
         // Normalisasi agar diagonal tidak lebih cepat
         if (moveDirection.magnitude > 1f)
@@ -47,12 +61,14 @@ public class PlayerCharacterMovement : MonoBehaviour
         }
 
         // Gravity
-        if (_characterController.isGrounded && _verticalVelocity < 0f)
+        if (_characterController.isGrounded &&
+            _verticalVelocity < 0f)
         {
             _verticalVelocity = -2f;
         }
 
-        _verticalVelocity += _gravity * Time.deltaTime;
+        _verticalVelocity +=
+            _gravity * Time.deltaTime;
 
         // Movement horizontal
         Vector3 horizontalMovement =
@@ -66,7 +82,6 @@ public class PlayerCharacterMovement : MonoBehaviour
         Vector3 finalMovement =
             horizontalMovement + verticalMovement;
 
-        // Gerakkan player
         _characterController.Move(
             finalMovement * Time.deltaTime
         );

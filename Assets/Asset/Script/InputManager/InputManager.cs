@@ -1,14 +1,16 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static GameInputAction;
 using System;
 
-public class InputManager : MonoBehaviour, GameInputAction.IPlayerActions
+public class InputManager : MonoBehaviour, IPlayerActions
 {
     // Reference ke generated input action
     private GameInputAction _gameInputAction;
 
     // Event untuk mengirim input movement
     public event Action<Vector2> MoveInputChanged;
+    public event Action<Vector2> LookInputChanged;
 
     private void Awake()
     {
@@ -44,5 +46,14 @@ public class InputManager : MonoBehaviour, GameInputAction.IPlayerActions
         Debug.Log(moveInput);
         // Mengirim input melalui Action Event
         MoveInputChanged?.Invoke(moveInput);
+    }
+
+    public void OnLook(InputAction.CallbackContext context)
+    {
+        // Membaca input mouse
+        Vector2 lookInput = context.ReadValue<Vector2>();
+
+        // Mengirim input kamera
+        LookInputChanged?.Invoke(lookInput);
     }
 }
