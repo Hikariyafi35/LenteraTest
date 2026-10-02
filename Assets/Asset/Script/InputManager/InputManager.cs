@@ -30,8 +30,19 @@ public class InputManager : MonoBehaviour, IPlayerActions
 
     private void OnDisable()
     {
-        
+
         _gameInputAction.Player.Disable();
+    }
+    public void SetPlayerInputEnabled(bool enabled)
+    {
+        if (enabled)
+        {
+            _gameInputAction.Player.Enable();
+        }
+        else
+        {
+            _gameInputAction.Player.Disable();
+        }
     }
 
     private void OnDestroy()
