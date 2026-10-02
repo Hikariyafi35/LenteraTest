@@ -11,6 +11,7 @@ public class InputManager : MonoBehaviour, IPlayerActions
     // Event untuk mengirim input movement
     public event Action<Vector2> MoveInputChanged;
     public event Action<Vector2> LookInputChanged;
+    public event Action InteractPressed;
 
     private void Awake()
     {
@@ -55,5 +56,14 @@ public class InputManager : MonoBehaviour, IPlayerActions
 
         // Mengirim input kamera
         LookInputChanged?.Invoke(lookInput);
+    }
+
+    public void OnInteract(InputAction.CallbackContext context)
+    {
+        
+        if (context.performed)
+        {
+            InteractPressed?.Invoke();
+        }
     }
 }
