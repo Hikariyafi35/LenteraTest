@@ -15,6 +15,8 @@ public class PuzzleManager : MonoBehaviour
         }
         // Menyimpan puzzle yang sedang aktif
         _currentPuzzle = puzzle;
+        // Subscribe ke event puzzle selesai
+        _currentPuzzle.PuzzleCompleted += HandlePuzzleCompleted;
 
         // Mengunci input player
         _inputManager.SetPlayerInputEnabled(false);
@@ -28,13 +30,20 @@ public class PuzzleManager : MonoBehaviour
         {
             return;
         }
-                // Menutup puzzle
+            // Unsubscribe dari event puzzle
+        _currentPuzzle.PuzzleCompleted -= HandlePuzzleCompleted;
+        // Menutup puzzle
         _currentPuzzle.Close();
-
+        
         // Mengaktifkan kembali input player
         _inputManager.SetPlayerInputEnabled(true);
 
         // Menghapus reference puzzle aktif
         _currentPuzzle = null;
+    }
+    private void HandlePuzzleCompleted()
+    {
+        // Menutup puzzle setelah selesai
+        ClosePuzzle();
     }
 }

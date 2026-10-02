@@ -147,8 +147,8 @@ public class MemoryCardPuzzle : PuzzleBase
     protected override void Complete()
     {
         Debug.Log("Memory Puzzle Complete!");
-
-        // Nanti kita sambungkan ke PuzzleManager
+         // Mengirim event bahwa puzzle selesai
+        NotifyPuzzleCompleted();
     }
 
     private void ShuffleCards()

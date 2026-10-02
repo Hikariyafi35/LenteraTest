@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36691986cab354c4cbe5073b86a04aa0, type: 3}
   m_Name: cat 2
   m_EditorClassIdentifier: Assembly-CSharp::MemoryCardData
-  Icon: {fileID: 21300000, guid: 1579695c4b7077947871da96b12bfe05, type: 3}
+  Icon: {fileID: 21300000, guid: 3dab7ab9e845b694f84042175a377975, type: 3}
