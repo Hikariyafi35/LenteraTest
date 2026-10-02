@@ -14,6 +14,8 @@ public class PlayerCharacter : MonoBehaviour
     private PlayerCharacterAnimation _animation;
     [SerializeField]
     private PlayerCharacterRotation _rotation;
+    [SerializeField]
+    private PlayerCharacterInteraction _interaction;
 
     private void OnEnable()
     {
@@ -22,6 +24,7 @@ public class PlayerCharacter : MonoBehaviour
         _inputManager.MoveInputChanged += _animation.SetMoveInput;
         _inputManager.MoveInputChanged += _rotation.SetMoveInput;
         _inputManager.LookInputChanged += _rotation.SetLookInput;
+        _inputManager.InteractPressed += _interaction.Interact;
     }
 
     private void OnDisable()
@@ -31,5 +34,6 @@ public class PlayerCharacter : MonoBehaviour
         _inputManager.MoveInputChanged -= _animation.SetMoveInput;
         _inputManager.MoveInputChanged -= _rotation.SetMoveInput;
         _inputManager.LookInputChanged -= _rotation.SetLookInput;
+        _inputManager.InteractPressed -= _interaction.Interact;
     }
 }
