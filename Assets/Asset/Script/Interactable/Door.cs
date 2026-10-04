@@ -16,6 +16,17 @@ public class Door : MonoBehaviour
     private AnimationCurve _movementCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
     private Coroutine _moveCoroutine;
     private bool _isOpen = false;
+    [SerializeField]
+    private GameObject _vfxObject;
+
+    private void Awake()
+    {
+        // Pastikan VFX dalam kondisi mati di awal permainan
+        if (_vfxObject != null)
+        {
+            _vfxObject.SetActive(false);
+        }
+    }
     private void OnEnable()
     {
         // Subscribe ke event puzzle selesai
@@ -34,7 +45,7 @@ public class Door : MonoBehaviour
         if (_isOpen) return;
 
         Debug.Log("Door Open!");
-
+        
         if (_positionOpened == null)
         {
             Debug.LogWarning("Open Target belum di-assign di Inspector!", this);
@@ -53,7 +64,10 @@ public class Door : MonoBehaviour
     private IEnumerator MoveDoorRoutine(Vector3 targetPosition)
     {
         _isOpen = true;
-
+        if (_vfxObject != null)
+        {
+            _vfxObject.SetActive(true);
+        }
         Transform doorTransform = _ObjectDoor.transform;
         Vector3 startPosition = doorTransform.position;
         float elapsed = 0f;
@@ -73,5 +87,9 @@ public class Door : MonoBehaviour
         // Memastikan posisi akhir tepat di target
         doorTransform.position = targetPosition;
         _moveCoroutine = null;
+        if (_vfxObject != null)
+        {
+            _vfxObject.SetActive(false);
+        }
     }
 }
